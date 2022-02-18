@@ -19,6 +19,12 @@ public class Song {
 		this.songYear = new SimpleStringProperty(sYear);
 	}
 
+	public void setSongDetails(String[] songDetails) {
+		setSongName(songDetails[0]);
+		setArtistName(songDetails[1]);
+		setAlbumName(songDetails[2]);
+		setSongYear(songDetails[3]);	
+	}
 	
 	public void setSongName(String value) {
 		songName.set(value);
@@ -45,8 +51,8 @@ public class Song {
 		return albumName.get();
 	}
 	
-	public void setSongYear(int year) {
-		songYear.set(String.valueOf(year));
+	public void setSongYear(String value) {
+		songYear.set(value);
 	}
 	
 	public String getSongYear() {
