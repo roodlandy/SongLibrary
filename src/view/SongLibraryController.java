@@ -55,6 +55,7 @@ public class SongLibraryController {
 		displaySongDetails();
 		selectionModel.setSelectionMode(SelectionMode.SINGLE);
 		selectionModel.selectedIndexProperty().addListener((obs, oldVal, newVal) -> displaySongDetails());
+		//
 	}
 	
 	public void editSong(ActionEvent e) throws IOException {  
