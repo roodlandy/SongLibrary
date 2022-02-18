@@ -71,6 +71,7 @@ public class SongLibraryController {
 		song.setSongDetails(songDetails);
 		displaySongTable();
 		displaySongDetails();
+		//
 	}
 	
 	public void editSong(ActionEvent e) throws IOException {  
