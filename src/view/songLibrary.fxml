@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.SongLibraryController">
+  <columnConstraints>
+    <ColumnConstraints hgrow="SOMETIMES" maxWidth="516.7999877929688" minWidth="10.0" prefWidth="379.20001220703125" />
+    <ColumnConstraints hgrow="SOMETIMES" maxWidth="274.4000244140625" minWidth="10.0" prefWidth="220.79998779296875" />
+  </columnConstraints>
+  <rowConstraints>
+    <RowConstraints maxHeight="116.60001220703126" minHeight="7.000009202957159" prefHeight="7.000009202957159" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="284.79998779296875" minHeight="10.0" prefHeight="284.79998779296875" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="64.60001220703128" minHeight="10.0" prefHeight="56.600012207031284" vgrow="SOMETIMES" />
+  </rowConstraints>
+   <children>
+      <TableView fx:id="songTable" prefHeight="247.0" prefWidth="490.0" GridPane.rowIndex="1">
+        <columns>
+          <TableColumn fx:id="songNameCol" prefWidth="190.39996945858002" text="Song Name" />
+          <TableColumn fx:id="artistNameCol" prefWidth="179.20001220703125" text="Artist Name" />
+        </columns>
+      </TableView>
+      <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+         <children>
+            <Label fx:id="songNameLabel" prefHeight="50.0" prefWidth="215.0" text="Label">
+               <VBox.margin>
+                  <Insets left="5.0" right="5.0" />
+               </VBox.margin>
+            </Label>
+            <Label fx:id="albumNameLabel" prefHeight="30.0" prefWidth="231.0" text="Label">
+               <VBox.margin>
+                  <Insets left="5.0" right="5.0" />
+               </VBox.margin>
+            </Label>
+            <Label fx:id="artistNameLabel" prefHeight="30.0" prefWidth="231.0" text="Label">
+               <VBox.margin>
+                  <Insets left="5.0" right="5.0" />
+               </VBox.margin>
+            </Label>
+            <Label fx:id="songYearLabel" prefHeight="30.0" prefWidth="285.0" text="Label">
+               <VBox.margin>
+                  <Insets left="5.0" right="5.0" />
+               </VBox.margin>
+            </Label>
+            <GridPane prefHeight="78.0" prefWidth="213.0">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Button fx:id="editButton" mnemonicParsing="false" onAction="#editSong" prefHeight="26.0" prefWidth="117.0" text="Edit">
+                     <GridPane.margin>
+                        <Insets />
+                     </GridPane.margin></Button>
+                  <Button fx:id="deleteButton" mnemonicParsing="false" onAction="#deleteSong" prefHeight="26.0" prefWidth="134.0" text="Delete" GridPane.columnIndex="1">
+                     <GridPane.margin>
+                        <Insets />
+                     </GridPane.margin></Button>
+               </children>
+            </GridPane>
+            <Button fx:id="addButton" mnemonicParsing="false" prefHeight="26.0" prefWidth="212.0" text="Add Song" onAction="#addSong"/>
+         </children>
+         <GridPane.margin>
+            <Insets />
+         </GridPane.margin>
+         <padding>
+            <Insets left="10.0" />
+         </padding>
+      </VBox>
+   </children>
+   <opaqueInsets>
+      <Insets />
+   </opaqueInsets>
+   <padding>
+      <Insets left="10.0" right="10.0" />
+   </padding>
+</GridPane>
