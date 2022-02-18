@@ -23,6 +23,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TableView.TableViewSelectionModel;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import model.Song;
 
@@ -48,19 +49,40 @@ public class SongLibraryController {
 	private Parent root;
 
 	public void start(Stage mainStage) { 
-		populateSongTable();
+		populateSongList();
+		displaySongTable();
 		
 		TableViewSelectionModel<Song> selectionModel = songTable.getSelectionModel();
 		selectionModel.select(0);
 		displaySongDetails();
 		selectionModel.setSelectionMode(SelectionMode.SINGLE);
 		selectionModel.selectedIndexProperty().addListener((obs, oldVal, newVal) -> displaySongDetails());
-		//
+	}
+	
+	public void addSong(String[] songDetails) {
+		Song song = new Song(songDetails);
+		songList.add(song);
+		displaySongTable();
+		displaySongDetails();
+	}
+	
+	public void changeSongDetails(String[] songDetails) {
+		Song song = songTable.getSelectionModel().getSelectedItem();
+		song.setSongDetails(songDetails);
+		displaySongTable();
+		displaySongDetails();
 	}
 	
 	public void editSong(ActionEvent e) throws IOException {  
-		root = FXMLLoader.load(getClass().getResource("/view/editSong.fxml"));
+		FXMLLoader loader = new FXMLLoader();  
+		loader.setLocation(getClass().getResource("/view/editSong.fxml"));
+		GridPane root = (GridPane)loader.load();
 		stage = (Stage)((Node)e.getSource()).getScene().getWindow();
+		EditSongController editSongController = loader.getController();
+		
+		Song selectedSong = songTable.getSelectionModel().getSelectedItem();
+		editSongController.start(selectedSong);
+		
 		scene = new Scene(root);
 		stage.setScene(scene);
 		stage.show();
@@ -86,7 +108,7 @@ public class SongLibraryController {
 		
 	}
 	
-	private void populateSongTable() {
+	private void populateSongList() {
 		songList = FXCollections.observableArrayList(
 				new Song("Rams", "Bengals", "--", "--"),
 				new Song("Rams", "Aengals", "--", "--"),
@@ -98,7 +120,9 @@ public class SongLibraryController {
 				new Song("Titans","Seahawks", "--", "--"),
 				new Song("Steelers","Jaguars", "--", "2001")
 				);
-		
+	}
+	
+	private void displaySongTable() {
 		songNameCol.setCellValueFactory(new PropertyValueFactory<Song, String> ("songName"));
 		artistNameCol.setCellValueFactory(new PropertyValueFactory<Song, String> ("artistName"));
 		songNameCol.setSortType(TableColumn.SortType.ASCENDING);	
@@ -108,7 +132,6 @@ public class SongLibraryController {
 		songTable.sort();
 		songTable.getSortOrder().add(artistNameCol);
 		songTable.sort();
-
 	}
 	
 	private void displaySongDetails() {

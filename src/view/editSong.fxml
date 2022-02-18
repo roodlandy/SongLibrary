@@ -22,14 +22,21 @@
       <Button fx:id="submitButton" mnemonicParsing="false" onAction="#submitEdit" text="Submit" GridPane.columnIndex="1" GridPane.rowIndex="2" />
       <VBox prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="1">
          <children>
-            <Label text="Label" />
-            <TextField />
-            <Label text="Label" />
-            <TextField />
-            <Label text="Label" />
-            <TextField />
-            <Label text="Label" />
-            <TextField />
+            <Label text="Song Name" />
+            <TextField fx:id="songNameField"/>
+            <Label text="Artist Name" />
+            <TextField fx:id="artistNameField"/>
+            <Label text="Album Name" />
+            <TextField fx:id="albumNameField"/>
+            <Label text="Song Year" />
+            <TextField fx:id="songYearField"/>
+         </children>
+      </VBox>
+      <VBox prefHeight="200.0" prefWidth="100.0">
+         <children>
+            <Label fx:id="titleLabel" text="Edit " />
+            <Label text="Input at least the song name and artist name" />
+            <Label fx:id="errorLabel" />
          </children>
       </VBox>
    </children>
