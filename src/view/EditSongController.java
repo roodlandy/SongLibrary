@@ -26,8 +26,9 @@ public class EditSongController {
 	
 	private Stage stage;
 	private Scene scene;
+	private int selectedIndex;
 	
-	public void start(Song song) { 
+	public void start(Song song, int index) { 
 		titleLabel.setText("Edit " + song.getSongName());
 		songNameField.setText(song.getSongName());
 		artistNameField.setText(song.getArtistName());
@@ -37,6 +38,7 @@ public class EditSongController {
 		if (!song.getSongYear().equals("--")){
 			songYearField.setText(song.getSongYear());
 		}	
+		selectedIndex = index;
 	}
 	
 	public void submitEdit(ActionEvent e) throws IOException {
@@ -57,7 +59,7 @@ public class EditSongController {
 			return;
 		}
 		
-		songLibraryController.changeSongDetails(songDetails);
+		songLibraryController.changeSongDetails(songDetails, selectedIndex);
 		
 		scene = new Scene(root);
 		stage.setScene(scene);

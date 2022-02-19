@@ -66,12 +66,12 @@ public class SongLibraryController {
 		displaySongDetails();
 	}
 	
-	public void changeSongDetails(String[] songDetails) {
+	public void changeSongDetails(String[] songDetails, int selectedIndex) {
+		songTable.getSelectionModel().select(selectedIndex);
 		Song song = songTable.getSelectionModel().getSelectedItem();
 		song.setSongDetails(songDetails);
 		displaySongTable();
 		displaySongDetails();
-		//
 	}
 	
 	public void editSong(ActionEvent e) throws IOException {  
@@ -82,7 +82,8 @@ public class SongLibraryController {
 		EditSongController editSongController = loader.getController();
 		
 		Song selectedSong = songTable.getSelectionModel().getSelectedItem();
-		editSongController.start(selectedSong);
+		int selectedIndex = songTable.getSelectionModel().getSelectedIndex();
+		editSongController.start(selectedSong, selectedIndex);
 		
 		scene = new Scene(root);
 		stage.setScene(scene);
