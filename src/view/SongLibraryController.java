@@ -26,6 +26,7 @@ import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import model.Song;
 import static java.util.Comparator.comparing;
 
@@ -60,6 +61,7 @@ public class SongLibraryController {
 		displaySongDetails();
 		selectionModel.setSelectionMode(SelectionMode.SINGLE);
 		selectionModel.selectedIndexProperty().addListener((obs, oldVal, newVal) -> displaySongDetails());
+		mainStage.addEventHandler(WindowEvent.WINDOW_CLOSE_REQUEST, this::closeWindowEvent);
 	}
 	
 	public void addSong(String[] songDetails) {
@@ -150,6 +152,10 @@ public class SongLibraryController {
 	}
 	
 	private void populateSongList() {
+		/*TODO import SongLibarrayFileIO, 
+		 * initialize songList to the return of SongLibraryFileIO.getSongListFromFile()
+		 * If it returns an exception catch the exception and create an empty songList
+		 */
 		songList = FXCollections.observableArrayList(
 				new Song("Rams", "Bengals", "--", "--"),
 				new Song("Rams", "Aengals", "--", "--"),
@@ -192,6 +198,13 @@ public class SongLibraryController {
 		albumNameLabel.setText("");
 		artistNameLabel.setText("");
 		songYearLabel.setText("");
+	}
+	
+	private void closeWindowEvent(WindowEvent event) {
+		/*TODO call SongLibraryFileIO.songListToFile() with songList as argument
+		 * 
+		 */
+		System.out.println("Window closed");
 	}
 
 }
