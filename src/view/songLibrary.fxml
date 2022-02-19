@@ -68,7 +68,7 @@
                      </GridPane.margin></Button>
                </children>
             </GridPane>
-            <Button fx:id="addButton" mnemonicParsing="false" prefHeight="26.0" prefWidth="212.0" text="Add Song" onAction="#addSong"/>
+            <Button fx:id="addButton" mnemonicParsing="false" onAction="#addSong" prefHeight="26.0" prefWidth="212.0" text="Add Song" />
          </children>
          <GridPane.margin>
             <Insets />
@@ -76,6 +76,12 @@
          <padding>
             <Insets left="10.0" />
          </padding>
+      </VBox>
+      <VBox prefHeight="200.0" prefWidth="100.0">
+         <children>
+            <Label prefHeight="22.0" prefWidth="406.0" text="SongLibrary " />
+            <Label fx:id="dialogLabel" />
+         </children>
       </VBox>
    </children>
    <opaqueInsets>
