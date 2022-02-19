@@ -1,15 +1,19 @@
 package view;
 
 import java.io.IOException;
+import java.util.Optional;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
@@ -45,13 +49,29 @@ public class AddSongController {
 			return;
 		}
 		
-		// call songLibraryController.addSong with Song constructor parameters as arguments
-		songLibraryController.addSong(songDetails);
-	
+		if(songLibraryController.checkForDuplicates(songDetails[0] + ";" + songDetails[1])) {
+			errorLabel.setText("A song with the same name and artist name is already in the library");
+			return;
+		}
 		
-		scene = new Scene(root);
-		stage.setScene(scene);
-		stage.show();
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.setTitle("Delete Song");
+		alert.setHeaderText("Are you sure you want to add this song?");
+		alert.setContentText(songDetails[0] + " by " + songDetails[1]);
+		
+		Optional<ButtonType> option = alert.showAndWait();
+		
+		if (option.get() == null) {
+			errorLabel.setText("No selection!");
+	    } else if (option.get() == ButtonType.OK) {
+	    	// call songLibraryController.addSong with Song constructor parameters as arguments
+			songLibraryController.addSong(songDetails);
+			scene = new Scene(root);
+			stage.setScene(scene);
+			stage.show();
+	    } else if (option.get() == ButtonType.CANCEL) {
+	        errorLabel.setText("Cancelled!");
+	    } 		
 	}
 	
 	private String[] getSongDetails() throws Exception{

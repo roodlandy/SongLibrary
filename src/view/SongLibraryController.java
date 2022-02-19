@@ -16,6 +16,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
@@ -26,6 +27,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import model.Song;
+import static java.util.Comparator.comparing;
 
 
 public class SongLibraryController {        
@@ -36,6 +38,7 @@ public class SongLibraryController {
 	@FXML Label albumNameLabel;
 	@FXML Label artistNameLabel;
 	@FXML Label songYearLabel;
+	@FXML Label dialogLabel;
 	@FXML Button editButton;
 	@FXML Button deleteButton;
 	
@@ -64,6 +67,7 @@ public class SongLibraryController {
 		songList.add(song);
 		displaySongTable();
 		displaySongDetails();
+		songTable.getSelectionModel().select(song);		
 	}
 	
 	public void changeSongDetails(String[] songDetails, int selectedIndex) {
@@ -101,13 +105,48 @@ public class SongLibraryController {
 	public void deleteSong(ActionEvent e) {
 		TableViewSelectionModel<Song> selectionModel = songTable.getSelectionModel();
 		int selectedIndex = selectionModel.getSelectedIndex();
-		if (songList.size() > selectedIndex) {
-			selectionModel.select(selectedIndex + 1);
-		}else if(songList.size() > 0) {
-			selectionModel.select(selectedIndex);
-		}
-		songList.remove(selectedIndex);
+		Song selectedSong = selectionModel.getSelectedItem();
 		
+		//Asks the user to confirm song deletion
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.setTitle("Delete Song");
+		alert.setHeaderText("Are you sure you want to delete this song?");
+		alert.setContentText(selectedSong.getSongName() + " by " + selectedSong.getArtistName());
+		
+		Optional<ButtonType> option = alert.showAndWait();
+		
+		if (option.get() == null) {
+			dialogLabel.setText("No selection!");
+	    } else if (option.get() == ButtonType.OK) {
+	    	if (songList.size() > selectedIndex) {
+				selectionModel.select(selectedIndex + 1);
+			}else if(songList.size() > 0) {
+				selectionModel.select(selectedIndex);
+			}
+			songList.remove(selectedIndex);
+	    	dialogLabel.setText("Song deleted!");
+	    } else if (option.get() == ButtonType.CANCEL) {
+	        dialogLabel.setText("Cancelled!");
+	    } 		
+	}
+	
+	public boolean checkForDuplicates(String songAndArtistName) {
+		for(Song s: songList) {
+			if(songAndArtistName.equals(s.getSongAndArtistName())) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public boolean checkForDuplicates(String songAndArtistName, int selectedIndex) {
+		Object[] songArray = songList.toArray();
+		for(int i = 0; i < songList.size(); i++) {
+			if(songAndArtistName.equals(((Song) songArray[i]).getSongAndArtistName()) && i != selectedIndex) {
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	private void populateSongList() {

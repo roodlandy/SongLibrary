@@ -62,4 +62,8 @@ public class Song {
 	public String toString() {
 		return songName.get() + ";" + artistName.get() + ";" + albumName.get() + ";" + songYear.get();
 	}
+	
+	public String getSongAndArtistName() {
+		return songName.get() + ";" + artistName.get();
+	}
 }
