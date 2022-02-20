@@ -16,7 +16,7 @@ public class SongLibraryFileIO {
 	public static ObservableList<Song> getSongListFromFile() throws Exception{
 		ObservableList<Song> songList = FXCollections.observableArrayList();
 		
-		File songFile = new File("/model/songFile.txt");
+		File songFile = new File("songFile.txt");
 		BufferedReader br = new BufferedReader(new FileReader(songFile));
 		
 		String st;
@@ -30,9 +30,9 @@ public class SongLibraryFileIO {
 	}
 	
 	public static void songListToFile(ObservableList<Song> songList) throws IOException{
-		File songFile = new File("/model/songFile.txt");
+		File songFile = new File("songFile.txt");
 		songFile.createNewFile();
-		BufferedWriter writer = new BufferedWriter(new FileWriter("/model/songFile.txt", false));
+		BufferedWriter writer = new BufferedWriter(new FileWriter("songFile.txt", false));
 		for(Song song : songList) {
 			writer.write(song.toString());
 			writer.newLine();

@@ -59,7 +59,10 @@ public class SongLibraryController {
 		displaySongTable();
 		
 		TableViewSelectionModel<Song> selectionModel = songTable.getSelectionModel();
-		selectionModel.select(0);
+		if(songList.size() > 0) {
+			selectionModel.select(0);
+		}
+		
 		displaySongDetails();
 		selectionModel.setSelectionMode(SelectionMode.SINGLE);
 		selectionModel.selectedIndexProperty().addListener((obs, oldVal, newVal) -> displaySongDetails());
@@ -69,20 +72,24 @@ public class SongLibraryController {
 	public void addSong(String[] songDetails) {
 		Song song = new Song(songDetails);
 		songList.add(song);
+		System.out.println(songList.size());
+		songTable.getSelectionModel().select(song);	
 		displaySongTable();
-		displaySongDetails();
-		songTable.getSelectionModel().select(song);		
+		displaySongDetails();	
+		
 	}
 	
 	public void changeSongDetails(String[] songDetails, int selectedIndex) {
 		songTable.getSelectionModel().select(selectedIndex);
-		Song song = songTable.getSelectionModel().getSelectedItem();
+		System.out.println(songList.size());
+		Song song = songTable.getSelectionModel().getSelectedItem();	
 		song.setSongDetails(songDetails);
 		displaySongTable();
 		displaySongDetails();
 	}
 	
 	public void editSong(ActionEvent e) throws IOException {  
+		SongLibraryFileIO.songListToFile(songList);
 		FXMLLoader loader = new FXMLLoader();  
 		loader.setLocation(getClass().getResource("/view/editSong.fxml"));
 		GridPane root = (GridPane)loader.load();
@@ -91,7 +98,7 @@ public class SongLibraryController {
 		
 		Song selectedSong = songTable.getSelectionModel().getSelectedItem();
 		int selectedIndex = songTable.getSelectionModel().getSelectedIndex();
-		editSongController.start(selectedSong, selectedIndex);
+		editSongController.start(selectedSong, selectedIndex); 
 		
 		scene = new Scene(root);
 		stage.setScene(scene);
@@ -99,6 +106,7 @@ public class SongLibraryController {
 	}
 	
 	public void addSong(ActionEvent e) throws IOException {  
+		SongLibraryFileIO.songListToFile(songList);
 		root = FXMLLoader.load(getClass().getResource("/view/addSong.fxml"));
 		stage = (Stage)((Node)e.getSource()).getScene().getWindow();
 		scene = new Scene(root);
@@ -161,24 +169,23 @@ public class SongLibraryController {
 		try {
 			//store the songlist into holder, iterate through and add to songList
 			ObservableList <Song> holder = SongLibraryFileIO.getSongListFromFile();
-			for (Song song : holder) {
-				songList.add(song);
-			}
+			songList = holder;
+
 			//if there is an exception, initialize an empty list
 		} catch (Exception e){
 			songList = FXCollections.observableArrayList();
 		}
-//		songList = FXCollections.observableArrayList(
-//				new Song("Rams", "Bengals", "--", "--"),
-//				new Song("Rams", "Aengals", "--", "--"),
-//				new Song("Packers","Tolts", "--", "--"),
-//				new Song("49ers","Giants", "--", "--"),
-//				new Song("Packers","Colts", "--", "--"),
-//				new Song("Cowboys","Broncos", "--", "--"),
-//				new Song("Vikings","Dolphins", "--", "1999"),
-//				new Song("Titans","Seahawks", "--", "--"),
-//				new Song("Steelers","Jaguars", "--", "2001")
-//				);
+		/*songList = FXCollections.observableArrayList(
+				new Song("Rams", "Bengals", "--", "--"),
+				new Song("Rams", "Aengals", "--", "--"),
+				new Song("Packers","Tolts", "--", "--"),
+				new Song("49ers","Giants", "--", "--"),
+				new Song("Packers","Colts", "--", "--"),
+				new Song("Cowboys","Broncos", "--", "--"),
+				new Song("Vikings","Dolphins", "--", "1999"),
+				new Song("Titans","Seahawks", "--", "--"),
+				new Song("Steelers","Jaguars", "--", "2001")
+				);*/
 	}
 	
 	private void displaySongTable() {
@@ -198,6 +205,7 @@ public class SongLibraryController {
 			displayBlankDetails();
 			return;
 		}
+		
 		Song selectedSong = songTable.getSelectionModel().getSelectedItem();
 		songNameLabel.setText(selectedSong.getSongName());
 		albumNameLabel.setText("From " + selectedSong.getAlbumName());
@@ -216,6 +224,12 @@ public class SongLibraryController {
 		/*TODO call SongLibraryFileIO.songListToFile() with songList as argument
 		 * 
 		 */
+		try {
+            SongLibraryFileIO.songListToFile(songList);
+        }
+        catch(Exception c) {
+            return;
+        }
 		System.out.println("Window closed");
 	}
 
