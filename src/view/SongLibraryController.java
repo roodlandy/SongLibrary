@@ -28,6 +28,8 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import model.Song;
+import model.SongLibraryFileIO;
+
 import static java.util.Comparator.comparing;
 
 
@@ -155,18 +157,28 @@ public class SongLibraryController {
 		/*TODO import SongLibarrayFileIO, 
 		 * initialize songList to the return of SongLibraryFileIO.getSongListFromFile()
 		 * If it returns an exception catch the exception and create an empty songList
-		 */
-		songList = FXCollections.observableArrayList(
-				new Song("Rams", "Bengals", "--", "--"),
-				new Song("Rams", "Aengals", "--", "--"),
-				new Song("Packers","Tolts", "--", "--"),
-				new Song("49ers","Giants", "--", "--"),
-				new Song("Packers","Colts", "--", "--"),
-				new Song("Cowboys","Broncos", "--", "--"),
-				new Song("Vikings","Dolphins", "--", "1999"),
-				new Song("Titans","Seahawks", "--", "--"),
-				new Song("Steelers","Jaguars", "--", "2001")
-				);
+		 */		
+		try {
+			//store the songlist into holder, iterate through and add to songList
+			ObservableList <Song> holder = SongLibraryFileIO.getSongListFromFile();
+			for (Song song : holder) {
+				songList.add(song);
+			}
+			//if there is an exception, initialize an empty list
+		} catch (Exception e){
+			songList = FXCollections.observableArrayList();
+		}
+//		songList = FXCollections.observableArrayList(
+//				new Song("Rams", "Bengals", "--", "--"),
+//				new Song("Rams", "Aengals", "--", "--"),
+//				new Song("Packers","Tolts", "--", "--"),
+//				new Song("49ers","Giants", "--", "--"),
+//				new Song("Packers","Colts", "--", "--"),
+//				new Song("Cowboys","Broncos", "--", "--"),
+//				new Song("Vikings","Dolphins", "--", "1999"),
+//				new Song("Titans","Seahawks", "--", "--"),
+//				new Song("Steelers","Jaguars", "--", "2001")
+//				);
 	}
 	
 	private void displaySongTable() {
